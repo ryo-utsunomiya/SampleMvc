@@ -6,10 +6,14 @@ namespace SampleMvc.Models
 {
     public partial class testdbContext : DbContext
     {
+        public testdbContext(DbContextOptions<testdbContext> options) : base(options)
+        {
+            // Do nothing
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-SJ8PH5T\SQLEXPRESS;Database=testdb;Trusted_Connection=True");
+            // Do nothing
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

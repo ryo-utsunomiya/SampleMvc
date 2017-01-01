@@ -46,8 +46,10 @@ namespace SampleMvc
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
             // Enable database connection
-            services.AddDbContext<testdbContext>();
+            services.AddDbContext<testdbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
 
             services.AddMvc();
 
