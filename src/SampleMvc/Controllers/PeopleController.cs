@@ -137,6 +137,12 @@ namespace SampleMvc.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var person = await _context.Person.SingleOrDefaultAsync(m => m.Id == id);
+
+            if (person == null)
+            {
+                return NotFound();
+            }
+
             _context.Person.Remove(person);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
