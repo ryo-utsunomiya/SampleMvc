@@ -21,7 +21,8 @@ namespace SampleMvc.Controllers
         // GET: People
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Person.ToListAsync());
+            var testdbContext = _context.Person.Include(p => p.Prefecture);
+            return View(await testdbContext.ToListAsync());
         }
 
         // GET: People/Details/5
@@ -44,6 +45,7 @@ namespace SampleMvc.Controllers
         // GET: People/Create
         public IActionResult Create()
         {
+            ViewData["PrefectureId"] = new SelectList(_context.Prefecture, "Id", "Name");
             return View();
         }
 
@@ -52,7 +54,7 @@ namespace SampleMvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Age,Name")] Person person)
+        public async Task<IActionResult> Create([Bind("Id,Age,Name,PrefectureId")] Person person)
         {
             if (ModelState.IsValid)
             {
@@ -60,6 +62,7 @@ namespace SampleMvc.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            ViewData["PrefectureId"] = new SelectList(_context.Prefecture, "Id", "Name", person.PrefectureId);
             return View(person);
         }
 
@@ -76,6 +79,7 @@ namespace SampleMvc.Controllers
             {
                 return NotFound();
             }
+            ViewData["PrefectureId"] = new SelectList(_context.Prefecture, "Id", "Name", person.PrefectureId);
             return View(person);
         }
 
@@ -84,7 +88,7 @@ namespace SampleMvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Age,Name")] Person person)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Age,Name,PrefectureId")] Person person)
         {
             if (id != person.Id)
             {
@@ -111,6 +115,7 @@ namespace SampleMvc.Controllers
                 }
                 return RedirectToAction("Index");
             }
+            ViewData["PrefectureId"] = new SelectList(_context.Prefecture, "Id", "Name", person.PrefectureId);
             return View(person);
         }
 
@@ -137,12 +142,6 @@ namespace SampleMvc.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var person = await _context.Person.SingleOrDefaultAsync(m => m.Id == id);
-
-            if (person == null)
-            {
-                return NotFound();
-            }
-
             _context.Person.Remove(person);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");

@@ -15,14 +15,20 @@
             <label asp-for="Age" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Age" class="form-control" />
-                <span asp-validation-for="Age" class="text-danger"></span>
+                <span asp-validation-for="Age" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
             <label asp-for="Name" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <span asp-validation-for="Name" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PrefectureId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="PrefectureId" class ="form-control" asp-items="ViewBag.PrefectureId"></select>
             </div>
         </div>
         <div class="form-group">
